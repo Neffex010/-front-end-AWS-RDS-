@@ -1,6 +1,6 @@
 // Función para consultar todos los registros
 function getAllRecords() {
-    fetch('https://34.207.232.152/php-intro-connection/getRecords.php') // Cambia localhost a tu IP pública
+    fetch('http://34.207.232.152/php-intro-connection/getRecords.php') // Cambia localhost a tu IP pública
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
@@ -22,7 +22,7 @@ function getAllRecords() {
 function getAllRecordsById() {
     const code = document.getElementById('recordCode').value;
     if (code.length === 3) { // Asegurarse de que el código tenga 3 caracteres
-        fetch(`https://34.207.232.152/php-intro-connection/getRecordById.php?code=${code}`)
+        fetch(`http://34.207.232.152/php-intro-connection/getRecordById.php?code=${code}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta de la red: ' + response.status);
