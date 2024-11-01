@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,30 +8,26 @@
     <style>
         /* Estilo de botones */
         .btn-primary, .btn-secondary {
-            display: none; /* Ocultos inicialmente */
+            /* Los botones ahora están siempre visibles */
         }
         .btn-primary {
             background-color: #ff5733;
             border-color: #ff5733;
             box-shadow: 0 4px 8px rgba(255, 87, 51, 0.4);
         }
-
         .btn-primary:hover {
             background-color: #c74326;
             border-color: #c74326;
         }
-
         .btn-secondary {
             background-color: #5c5c5c;
             border-color: #5c5c5c;
             box-shadow: 0 4px 8px rgba(92, 92, 92, 0.4);
         }
-
         .btn-secondary:hover {
             background-color: #3e3e3e;
             border-color: #3e3e3e;
         }
-
         /* Footer */
         footer {
             margin-top: 20px;
@@ -42,13 +37,11 @@
             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
             color: #343a40;
         }
-
         body {
             background-color: #d6eaf8;
         }
     </style>
 </head>
-
 <body>
 
     <div class="container mt-5">
@@ -56,8 +49,26 @@
 
         <!-- Botones para consulta -->
         <div class="text-center">
-            <button id="countryButton" class="btn btn-primary mb-3" onclick="fetchLocationBasedRecords()">Consultar Países</button>
-            <button id="continentButton" class="btn btn-secondary mb-3" onclick="fetchLocationBasedRecords()">Consultar Continentes</button>
+            <button id="countryButton" class="btn btn-primary mb-3" onclick="getAllRecordsByCountry()">Consultar Países</button>
+            <button id="continentButton" class="btn btn-secondary mb-3" onclick="getAllRecordsByContinent()">Consultar Continentes</button>
+            <button class="btn btn-primary mb-3" onclick="getAllRecords()">Consultar Todos los Registros</button>
+        </div>
+
+        <!-- Tabla de resultados -->
+        <div class="table-responsive">
+            <table id="recordsTable" class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Continent</th>
+                        <th>Region</th>
+                        <th>SurfaceArea</th>
+                        <th>Population</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
 
@@ -73,5 +84,4 @@
     <script src="./js/main.js"></script>
 
 </body>
-
 </html>
