@@ -12,10 +12,6 @@ function getAllRecords() {
         })
         .catch(error => console.error('Error:', error));
 
-
-
-
-
 }
 
 // Función para consultar registros por código de letra de 3 caracteres
@@ -106,7 +102,7 @@ window.onload = showButtonsBasedOnIp;
 
 // Función para identificar la ubicación y cargar los botones correspondientes
 function loadButtons() {
-    fetch('https://18.232.68.143/php-intro-connection/index.php')
+    fetch('//18.232.68.143/php-intro-connection/index.php')
         .then(response => response.json())
         .then(data => {
             // Verificamos la región o país para decidir qué botones mostrar
@@ -130,7 +126,7 @@ loadButtons();
 
 // Funciones para manejar la consulta según la selección
 function getAllRecordsByCountry() {
-    fetch('https://18.232.68.143/php-intro-connection/getRecordsByCountry.php')
+    fetch('//18.232.68.143/php-intro-connection/getRecordsByCountry.php')
         .then(response => response.json())
         .then(data => populateTable(data))
         .catch(error => console.error('Error al consultar por país:', error));
