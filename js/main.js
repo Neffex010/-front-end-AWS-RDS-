@@ -1,6 +1,6 @@
 // Función para consultar todos los registros
 function getAllRecords() {
-    fetch('//3.89.7.244/php-intro-connection/getRecords.php') 
+    fetch('//18.232.68.143/php-intro-connection/getRecords.php') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
@@ -17,7 +17,7 @@ function getAllRecords() {
 function getAllRecordsById() {
     const code = document.getElementById('recordCode').value;
     if (code.length === 3) { // Asegurarse de que el código tenga 3 caracteres
-        fetch(`//3.89.7.244/php-intro-connection/getRecordById.php?code=${code}`)
+        fetch(`//18.232.68.143/php-intro-connection/getRecordById.php?code=${code}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta de la red: ' + response.status);
