@@ -1,48 +1,49 @@
-// Función para consultar todos los registros
-function getAllRecords() {
-    fetch('//3.89.68.139/php-intro-connection/getRecords.php') 
+// Función para obtener la ubicación y configurar los botones en función del país o continente
+function setupButtons() {
+    axios.get('https://3.89.68.139/php-intro-connection/index.php')
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la respuesta de la red: ' + response.status);
+            const data = response.data;
+            const countryButton = document.getElementById('countryButton');
+            const continentButton = document.getElementById('continentButton');
+
+            // Verifica si la respuesta contiene datos de país y continente
+            if (data && data.country_name) {
+                countryButton.style.display = 'inline-block'; // Muestra el botón de países
+                countryButton.addEventListener('click', () => fetchLocationBasedRecords('country'));
             }
-            return response.json();
+            if (data && data.continent_name) {
+                continentButton.style.display = 'inline-block'; // Muestra el botón de continentes
+                continentButton.addEventListener('click', () => fetchLocationBasedRecords('continent'));
+            }
         })
-        .then(data => {
-            populateTable(data);
-        })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error al obtener la ubicación:', error));
 }
 
-// Función para consultar registros por código de letra de 3 caracteres
-function getAllRecordsById() {
-    const code = document.getElementById('recordCode').value;
-    if (code.length === 3) { // Asegurarse de que el código tenga 3 caracteres
-        fetch(`//3.89.68.139/php-intro-connection/getRecordById.php?code=${code}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta de la red: ' + response.status);
-                }
-                return response.json(); // Analizar como JSON
-            })
-            .then(data => {
-                // Asegúrate de que data sea un array
-                if (data.error) {
-                    alert(data.error); // Muestra el error si no se encuentra el registro
-                } else {
-                    populateTable([data]); // Siempre pasamos un array
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    } else {
-        alert('Por favor, ingresa un código de letra de 3 caracteres');
+// Función para realizar consultas basadas en la ubicación (país o continente)
+function fetchLocationBasedRecords(type) {
+    let endpoint = '';
+
+    if (type === 'country') {
+        endpoint = 'https://3.89.68.139/php-intro-connection/getRecordsByCountry.php';
+    } else if (type === 'continent') {
+        endpoint = 'https://3.89.68.139/php-intro-connection/getRecordsByContinent.php';
     }
+
+    // Realiza la solicitud de consulta a la base de datos
+    axios.get(endpoint)
+        .then(response => {
+            const records = response.data;
+            displayRecords(records);
+        })
+        .catch(error => console.error('Error al obtener los registros:', error));
 }
 
-// Función para poblar la tabla con los registros
-function populateTable(records) {
-    const tbody = document.querySelector('#recordsTable tbody');
-    tbody.innerHTML = ''; // Limpiar la tabla
+// Función para mostrar los registros en la tabla HTML
+function displayRecords(records) {
+    const tbody = document.getElementById('recordsTableBody');
+    tbody.innerHTML = ''; // Limpiar la tabla antes de poblarla
 
+    // Crear filas para cada registro y añadirlas a la tabla
     records.forEach(record => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -57,54 +58,5 @@ function populateTable(records) {
     });
 }
 
-// Función para obtener la IP del cliente y mostrar el botón correspondiente
-function showButtonsBasedOnIp() {
-    fetch('//3.89.68.139/php-intro-connection/index.php') // Solicita la IP del cliente
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la respuesta de la red: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const country = data.country;
-            const continent = data.continent;
-
-            // Muestra los botones según la IP
-            if (country) {
-                document.getElementById('btnCountry').style.display = 'inline-block';
-            }
-            if (continent) {
-                document.getElementById('btnContinent').style.display = 'inline-block';
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-// Llamar a la función al cargar la página
-window.onload = showButtonsBasedOnIp;
-
-// Funciones para manejar la consulta según la selección
-function getAllRecordsByCountry() {
-    fetch('//3.89.68.139/php-intro-connection/getRecordsByCountry.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al consultar por país: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => populateTable(data))
-        .catch(error => console.error('Error:', error));
-}
-
-function getAllRecordsByContinent() {
-    fetch('//3.89.68.139/php-intro-connection/getRecordsByContinent.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al consultar por continente: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => populateTable(data))
-        .catch(error => console.error('Error:', error));
-}
+// Inicializar la configuración de botones al cargar la página
+document.addEventListener('DOMContentLoaded', setupButtons);
