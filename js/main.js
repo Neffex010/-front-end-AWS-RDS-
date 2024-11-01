@@ -1,6 +1,6 @@
 // Función para consultar todos los registros
 function getAllRecords() {
-    fetch('//18.232.68.143/php-intro-connection/getRecords.php') 
+    fetch('//3.89.68.139/php-intro-connection/getRecords.php') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
@@ -17,7 +17,7 @@ function getAllRecords() {
 function getAllRecordsById() {
     const code = document.getElementById('recordCode').value;
     if (code.length === 3) { // Asegurarse de que el código tenga 3 caracteres
-        fetch(`//18.232.68.143/php-intro-connection/getRecordById.php?code=${code}`)
+        fetch(`//3.89.68.139/php-intro-connection/getRecordById.php?code=${code}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta de la red: ' + response.status);
@@ -59,7 +59,7 @@ function populateTable(records) {
 
 // Función para obtener la IP del cliente y mostrar el botón correspondiente
 function showButtonsBasedOnIp() {
-    fetch('//18.232.68.143/php-intro-connection/index.php') // Solicita la IP del cliente
+    fetch('//3.89.68.139/php-intro-connection/index.php') // Solicita la IP del cliente
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
@@ -86,7 +86,7 @@ window.onload = showButtonsBasedOnIp;
 
 // Funciones para manejar la consulta según la selección
 function getAllRecordsByCountry() {
-    fetch('//18.232.68.143/php-intro-connection/getRecordsByCountry.php')
+    fetch('//3.89.68.139/php-intro-connection/getRecordsByCountry.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al consultar por país: ' + response.status);
@@ -98,7 +98,7 @@ function getAllRecordsByCountry() {
 }
 
 function getAllRecordsByContinent() {
-    fetch('//18.232.68.143/php-intro-connection/getRecordsByContinent.php')
+    fetch('//3.89.68.139/php-intro-connection/getRecordsByContinent.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al consultar por continente: ' + response.status);
