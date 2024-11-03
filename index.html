@@ -1,87 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Base de Datos - Países y Continentes</title>
+    <title>Base de Datos World</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Estilo del título */
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 1.8em;
+        }
+
+        /* Estilo de tabla */
+        .table-title {
+            background-color: #16a085;
+            color: white;
+            font-size: 1.25em;
+            text-align: center;
+            padding: 10px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-weight: bold;
+        }
+
+        table {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #1abc9c;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            padding: 15px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e8f6f3;
+        }
+
+        tr:hover {
+            background-color: #d1f2eb;
+        }
+
         /* Estilo de botones */
-        .btn-primary, .btn-secondary {
-            /* Los botones ahora están siempre visibles */
+        .btn-primary, .btn-primary:hover {
+            background-color: #d4ac0d;
+            border-color: #d4ac0d;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(212, 172, 13, 0.4);
+            font-weight: bold;
         }
-        .btn-primary {
-            background-color: #ff5733;
-            border-color: #ff5733;
-            box-shadow: 0 4px 8px rgba(255, 87, 51, 0.4);
+
+        .btn-primary i {
+            margin-right: 5px;
         }
+
         .btn-primary:hover {
-            background-color: #c74326;
-            border-color: #c74326;
+            background-color: #b7950b;
+            box-shadow: 0 4px 12px rgba(183, 149, 11, 0.5);
         }
-        .btn-secondary {
-            background-color: #5c5c5c;
-            border-color: #5c5c5c;
-            box-shadow: 0 4px 8px rgba(92, 92, 92, 0.4);
+
+        /* Input de texto estilizado */
+        input[type="text"] {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease;
         }
-        .btn-secondary:hover {
-            background-color: #3e3e3e;
-            border-color: #3e3e3e;
+
+        input[type="text"]:focus {
+            border-color: #16a085;
         }
+
         /* Footer */
         footer {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 30px;
+            padding: 15px;
             text-align: center;
-            background-color: #e9ecef;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-            color: #343a40;
+            background-color: #34495e;
+            color: #ecf0f1;
+            font-size: 0.9em;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
         }
+
+        footer a {
+            color: #f1c40f;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #f39c12;
+            text-decoration: underline;
+        }
+
         body {
-            background-color: #d6eaf8;
+            background-color: #f0f3f4;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Animaciones */
+        .btn, table {
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .table-area {
+            margin-top: 20px;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            margin-bottom: 10px;
         }
     </style>
 </head>
+
 <body>
 
     <div class="container mt-5">
-        <h1 class="text-center mb-4" style="color: #ff5733;">Consulta de Países y Continentes</h1>
+        <h1>Base de Datos World</h1>
+        <h2>Consulta de paises basada en la IP del cliente </h2>
 
-        <!-- Botones para consulta -->
-        <div class="text-center">
-            <button id="countryButton" class="btn btn-primary mb-3" onclick="getAllRecordsByCountry()">Consultar Países</button>
-            <button id="continentButton" class="btn btn-secondary mb-3" onclick="getAllRecordsByContinent()">Consultar Continentes</button>
-            <button class="btn btn-primary mb-3" onclick="getAllRecords()">Consultar Todos los Registros</button>
+        <!-- Área de botones tabla Paises -->
+        <div class="search-area">
+            <button class="btn btn-primary mb-3" onclick="getAllRecordsByCountry()">
+                <i class="fas fa-flag"></i> Mi país
+            </button>
+            <button class="btn btn-primary mb-3" onclick="getAllRecordsByContinent()">
+                <i class="fas fa-globe"></i> Mi continente
+            </button>
         </div>
 
-        <!-- Tabla de resultados -->
-        <div class="table-responsive">
+        <!-- Título de la tabla -->
+        <div class="table-title">Información sobre los Países</div>
+
+        <!-- Área de tabla País -->
+        <div class="table-area">
             <table id="recordsTable" class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Continent</th>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Continente</th>
                         <th>Region</th>
-                        <th>SurfaceArea</th>
-                        <th>Population</th>
+                        <th>Superficie</th>
+                        <th>Poblacion</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
+
     </div>
 
     <!-- Footer -->
     <footer>
-        Consulta de registros basado en la base de datos "World" alojada en AWS.
+        Proyecto desarrollado por <a href="#">Luis Enrique Cabrera Garcia</a> | ITICS | Base de Datos Distribuidas | <br>
+        Consulta de registros basado en la IP del Cliente 
     </footer>
 
     <!-- Axios CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- JavaScript para consultas -->
+    <!-- Tu archivo JS -->
     <script src="./js/main.js"></script>
 
 </body>
+
 </html>
