@@ -1,6 +1,6 @@
 // Función para consultar todos los registros
 function getAllRecords() {
-    fetch('//54.166.156.64/php-intro-connection/getRecords.php') // Cambia localhost a tu IP pública
+    fetch('//34.226.214.154/php-intro-connection/getRecords.php') // Cambia localhost a tu IP pública
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
@@ -16,7 +16,7 @@ function getAllRecords() {
 
 // Función para consultar mi pais
 function getAllRecordsByCountry() {
-    fetch('//54.166.156.64/php-intro-connection/getRecordsByCountry.php') 
+    fetch('//34.226.214.154/php-intro-connection/getRecordsByCountry.php') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
@@ -31,7 +31,7 @@ function getAllRecordsByCountry() {
 }
 // Función para consultar los paises que estan en mi continente
 function getAllRecordsByContinent() {
-    fetch('//54.166.156.64/php-intro-connection/getRecordsByContinent.php') 
+    fetch('//34.226.214.154/php-intro-connection/getRecordsByContinent.php') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
