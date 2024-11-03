@@ -1,49 +1,71 @@
-// Función para obtener la ubicación y configurar los botones en función del país o continente
-function setupButtons() {
-    axios.get('https://3.89.68.139/php-intro-connection/index.php')
+// Función para consultar todos los registros
+function getAllRecords() {
+    fetch('//54.166.156.64/php-intro-connection/getRecords.php') // Cambia localhost a tu IP pública
         .then(response => {
-            const data = response.data;
-            const countryButton = document.getElementById('countryButton');
-            const continentButton = document.getElementById('continentButton');
-
-            // Verifica si la respuesta contiene datos de país y continente
-            if (data && data.country_name) {
-                countryButton.style.display = 'inline-block'; // Muestra el botón de países
-                countryButton.addEventListener('click', () => fetchLocationBasedRecords('country'));
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la red: ' + response.status);
             }
-            if (data && data.continent_name) {
-                continentButton.style.display = 'inline-block'; // Muestra el botón de continentes
-                continentButton.addEventListener('click', () => fetchLocationBasedRecords('continent'));
-            }
+            return response.json();
         })
-        .catch(error => console.error('Error al obtener la ubicación:', error));
+        .then(data => {
+            populateTable(data);
+        })
+        .catch(error => console.error('Error:', error));
+
 }
 
-// Función para realizar consultas basadas en la ubicación (país o continente)
-function fetchLocationBasedRecords(type) {
-    let endpoint = '';
-
-    if (type === 'country') {
-        endpoint = 'https://3.89.68.139/php-intro-connection/getRecordsByCountry.php';
-    } else if (type === 'continent') {
-        endpoint = 'https://3.89.68.139/php-intro-connection/getRecordsByContinent.php';
-    }
-
-    // Realiza la solicitud de consulta a la base de datos
-    axios.get(endpoint)
+// Función para consultar mi pais
+function getAllRecordsByCountry() {
+    fetch('//54.166.156.64/php-intro-connection/getRecordsByCountry.php') 
         .then(response => {
-            const records = response.data;
-            displayRecords(records);
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la red: ' + response.status);
+            }
+            return response.json();
         })
-        .catch(error => console.error('Error al obtener los registros:', error));
+        .then(data => {
+            populateTable(data);
+        })
+        .catch(error => console.error('Error:', error));
+
 }
+// Función para consultar los paises que estan en mi continente
+function getAllRecordsByContinent() {
+    fetch('//54.166.156.64/php-intro-connection/getRecordsByContinent.php') 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la red: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            populateTable(data);
+        })
+        .catch(error => console.error('Error:', error));
 
-// Función para mostrar los registros en la tabla HTML
-function displayRecords(records) {
-    const tbody = document.getElementById('recordsTableBody');
-    tbody.innerHTML = ''; // Limpiar la tabla antes de poblarla
+}
+/* // Función para consultar las ciudades que estan en mi pais 
+function getAllRecordsByCity() {
+    fetch('//54.166.156.64/php-intro-connection/getRecordsByCity.php') 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la red: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            populateTable(data);
+        })
+        .catch(error => console.error('Error:', error));
 
-    // Crear filas para cada registro y añadirlas a la tabla
+} */
+
+
+// Función para poblar la tabla con los registros country
+function populateTable(records) {
+    const tbody = document.querySelector('#recordsTable tbody');
+    tbody.innerHTML = ''; // Limpiar la tabla
+
     records.forEach(record => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -51,12 +73,37 @@ function displayRecords(records) {
             <td>${record.Name}</td>
             <td>${record.Continent}</td>
             <td>${record.Region}</td>
-            <td>${record.SurfaceArea}</td>
+	        <td>${record.SurfaceArea}</td>
             <td>${record.Population}</td>
+
         `;
         tbody.appendChild(row);
     });
 }
 
-// Inicializar la configuración de botones al cargar la página
-document.addEventListener('DOMContentLoaded', setupButtons);
+
+
+/*  function populateTable(data) {
+    const tableBody = document.querySelector('#dataTable tbody');
+    tableBody.innerHTML = ''; // Limpia la tabla antes de agregar nuevos datos
+
+    if (data.error) {
+        console.error(data.error); // Muestra el error en la consola si lo hay
+        alert('Error: ' + data.error);
+        return;
+    }
+
+    // Recorre los registros y los agrega a la tabla
+    data.forEach(record => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${record.ID}</td>
+            <td>${record.Name}</td>
+            <td>${record.CountryCode}</td>
+            <td>${record.District}</td>
+            
+        `;
+        tableBody.appendChild(row);
+    });
+} */ 
+
