@@ -1,6 +1,6 @@
 // Función para consultar todos los registros
 function getAllRecords() {
-    fetch('//3.81.161.17/php-intro-connection/getRecords.php') // Cambia localhost a tu IP pública
+    fetch('//174.129.61.217/php-intro-connection/getRecords.php') // Cambia localhost a tu IP pública
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la red: ' + response.status);
